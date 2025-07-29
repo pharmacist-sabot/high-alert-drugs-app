@@ -8,6 +8,7 @@ const featuredDrug = ref(null)
 const searchTerm = ref('')
 const isLoading = ref(true)
 const error = ref(null)
+const emit = defineEmits(['view-details'])
 
 const displayedDrugs = computed(() => {
   if (searchTerm.value.trim() !== '') {
@@ -60,7 +61,7 @@ onMounted(fetchDrugs)
       <input
         type="search"
         v-model="searchTerm"
-        placeholder="🔍 ค้นหาชื่อยา..."
+        placeholder="ค้นหาชื่อยา..."
         class="search-input"
         autocomplete="off"
       />
@@ -98,7 +99,7 @@ onMounted(fetchDrugs)
             <h3>🩺 การติดตาม (Monitoring)</h3>
             <p>{{ drug.summary_monitoring }}</p>
           </div>
-          <button class="readmore-btn">อ่านข้อมูลยาฉบับเต็ม</button>
+          <button class="readmore-btn" @click="$emit('view-details', drug.id)"> อ่านข้อมูลยาฉบับเต็ม </button>
         </div>
       </div>
     </main>
@@ -116,7 +117,7 @@ onMounted(fetchDrugs)
 
 /* -- Card Container -- */
 .drug-card {
-  width: 100%;
+  width: 26rem;
   max-width: 26rem; /* ~416px, เหมาะมือถือตั้ง/นอน */
   min-height: 32rem; /* ~512px */
   max-height: 90vh;
@@ -273,20 +274,40 @@ onMounted(fetchDrugs)
   display: block;
   width: 100%;
   margin-top: .8em;
-  padding: .7em 0;
+  padding: .75em 0;
   border: none;
-  background: var(--primary-color);
+  background-color: var(--primary-color);
   color: #fff;
   border-radius: .55em;
   cursor: pointer;
   font-weight: bold;
   font-size: 1.02rem;
-  transition: background 0.15s;
+  
+  /* --- หัวใจของความ "ว้าว" --- */
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 74, 128, 0.15);
+  
+  /* --- กำหนด Transition ให้ชัดเจนและครบถ้วน --- */
+  transition-property: transform, background-color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
 }
+
+/* State: เมื่อเอาเมาส์ไปวาง (Hover) หรือ Focus */
 .readmore-btn:hover,
-.readmore-btn:focus {
-  background: var(--primary-color-dark);
-  outline: none;
+.readmore-btn:focus-visible { /* ใช้ focus-visible เพื่อให้แสดงผลเมื่อ focus ด้วย keyboard */
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 74, 128, 0.25);
+  outline: none; /* เอา outline สีน้ำเงินของ browser ออก */
+}
+
+/* State: เมื่อกำลังกดปุ่ม (Active) */
+.readmore-btn:active {
+  transform: translateY(0); /* ทำให้ปุ่ม 'ยุบ' กลับมาที่เดิม */
+  box-shadow: 0 1px 3px rgba(0, 74, 128, 0.2);
+  /* ทำให้การยุบตัวเร็วขึ้นเพื่อความรู้สึกที่สมจริง */
+  transition-duration: 0.1s;
 }
 
 /* -- Responsive: Tablet & Desktop -- */
