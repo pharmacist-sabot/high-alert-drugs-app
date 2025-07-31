@@ -129,7 +129,7 @@ onMounted(fetchDrugs)
 
 /* -- Card Container -- */
 .drug-card {
-  width: 30rem;
+  width: 50rem;
   max-width: 26rem;
   min-height: 32rem;
   max-height: 90vh;

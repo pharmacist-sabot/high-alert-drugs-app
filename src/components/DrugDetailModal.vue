@@ -185,7 +185,7 @@ onUnmounted(() => {
 
 /* --- 2. Base Card Structure --- */
 .drug-card {
-  width: 26rem; max-width: 100%; height: 90vh; max-height: 700px;
+  width: 100%; max-width: 100%; height: 90vh; max-height: 700px;
   background: #fff; border-radius: 1.25rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0,0,0,0.05);
   display: flex; flex-direction: column; overflow: hidden;

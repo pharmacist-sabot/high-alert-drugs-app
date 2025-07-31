@@ -36,7 +36,7 @@ function closeDrugDetails() {
 
 <style scoped>
 .app-root {
-  min-height: 100%;
+  min-height: 100vh;
   box-sizing: border-box;
   background: #f7fafe;
   display: flex;
