@@ -1,7 +1,5 @@
-/* src/assets/main.css */
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap');
 
-/* Import Font จาก Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
 html, body {
   height: 100%;
   margin: 0;
@@ -9,17 +7,17 @@ html, body {
 }
 
 :root {
-  --primary-color: #005A9C;
-  --secondary-color: #E8F0F6;
-  --text-color: #333;
-  --danger-color: #D32F2F;
-  --font-family: 'Sarabun', sans-serif;
-  --border-radius: 8px;
+  --primary-color: #d97706;      
+  --secondary-color: #fef3c7;    
+  --text-color: #1f2937;        
+  --danger-color: #c0392b;      
+  --font-family: 'Prompt', sans-serif; 
+  --border-radius: 8px;          
 }
 
 body {
   font-family: var(--font-family);
   color: var(--text-color);
   margin: 0;
-  background-color: #f4f7f9;
+  background-color: #f9fafb; 
 }

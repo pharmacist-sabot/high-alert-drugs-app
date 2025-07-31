@@ -82,44 +82,56 @@ onMounted(fetchDrugs)
       <div v-else class="results">
         <h3 class="list-title" v-if="!searchTerm">ยาแนะนำวันนี้</h3>
         <h3 class="list-title" v-else>ผลการค้นหา ({{ displayedDrugs.length }} รายการ)</h3>
-        <div v-for="drug in displayedDrugs" :key="drug.id" class="drug-info">
+        
+        <div v-for="drug in displayedDrugs" :key="drug.id" class="drug-item">
           <div class="info-header">
             <h2>{{ drug.generic_name }}</h2>
             <span v-if="drug.trade_name" class="trade-name">{{ drug.trade_name }}</span>
           </div>
-          <div class="info-section">
-            <h3>💧 วิธีการผสม (Preparation)</h3>
-            <p>{{ drug.summary_preparation }}</p>
+
+          <div class="info-details-grid">
+            <div class="info-card">
+              <h3>💧 วิธีการผสม (Preparation)</h3>
+              <p>{{ drug.summary_preparation }}</p>
+            </div>
+            <div class="info-card">
+              <h3>⏳ ความคงตัว (Stability)</h3>
+              <p>{{ drug.summary_stability }}</p>
+            </div>
+            <div class="info-card">
+              <h3>🩺 การติดตาม (Monitoring)</h3>
+              <p>{{ drug.summary_monitoring }}</p>
+            </div>
           </div>
-          <div class="info-section">
-            <h3>⏳ ความคงตัว (Stability)</h3>
-            <p>{{ drug.summary_stability }}</p>
-          </div>
-          <div class="info-section">
-            <h3>🩺 การติดตาม (Monitoring)</h3>
-            <p>{{ drug.summary_monitoring }}</p>
-          </div>
+
           <button class="readmore-btn" @click="$emit('view-details', drug.id)"> อ่านข้อมูลยาฉบับเต็ม </button>
         </div>
       </div>
     </main>
+
+    <!-- FOOTER -->
+    <footer class="card-footer-credit">
+      <p>พัฒนาโดย ภก.สุรเดช ประถมศักดิ์ ©2025 สงวนลิขสิทธิ์</p>
+    </footer>
+
   </div>
 </template>
 
 <style scoped>
 :root {
-  --primary-color: #0066b3;
-  --primary-color-dark: #004a80;
-  --secondary-color: #d0e6f9;
+  --primary-color: #d97706;  /* amber-600 */
+  --primary-color-dark: #b45309; /* amber-700 */
+  --secondary-color: #fef3c7; /* amber-100 */
+  --focus-ring-color: #fcd34d66; /* amber-300 with opacity */
   --danger-color: #c0392b;
-  --font-family: 'Sarabun', 'Prompt', 'Kanit', 'Roboto', sans-serif;
+  --font-family: 'Prompt'; /* FONT CHANGED */
 }
 
 /* -- Card Container -- */
 .drug-card {
   width: 30rem;
-  max-width: 26rem; /* ~416px, เหมาะมือถือตั้ง/นอน */
-  min-height: 32rem; /* ~512px */
+  max-width: 26rem;
+  min-height: 32rem;
   max-height: 90vh;
   background: #fff;
   border-radius: 1.25rem;
@@ -127,73 +139,55 @@ onMounted(fetchDrugs)
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: var(--font-family);
+  font-family: var(--font-family); /* FONT APPLIED */
 }
 
 /* -- Header -- */
 .card-header {
-  background: var(--primary-color);
+  background: var(--primary-color); /* Corrected: Uses orange variable */
   color: #fff;
   padding: 1.3rem 1rem 1.1rem;
   text-align: center;
+  flex-shrink: 0;
 }
 .card-header h1 {
-  font-size: 1.3rem;
-  margin: 0;
-  font-weight: 700;
+  font-size: 1.3rem; margin: 0; font-weight: 700;
 }
 .card-header p {
-  margin: .4rem 0 0;
-  font-size: 1rem;
-  opacity: 0.86;
+  margin: .4rem 0 0; font-size: 1rem; opacity: 0.9;
 }
 
 /* -- Search -- */
 .card-search {
   padding: .9rem 1rem .9rem;
-  background: #f8fafc;
-  border-bottom: 1px solid #e9ecef;
+  background: #fdfdfe;
+  border-bottom: 1px solid #f3f4f6;
+  flex-shrink: 0;
 }
 .search-input {
-  width: 100%;
-  font-size: 1.05rem;
-  padding: .85em 1em;
-  border: 1px solid #dbeafe;
-  border-radius: .75em;
-  background: #fff;
-  box-sizing: border-box;
+  width: 100%; font-size: 1.05rem; padding: .85em 1em;
+  border: 1px solid #e5e7eb; border-radius: .75em;
+  background: #fff; box-sizing: border-box;
   transition: border-color 0.2s, box-shadow 0.18s;
   font-family: inherit;
 }
 .search-input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2.5px #b6dafe77;
+  box-shadow: 0 0 0 2.5px var(--focus-ring-color);
   outline: none;
 }
 
 /* -- Main Content (Scrollable) -- */
 .card-content {
-  flex: 1 1 0;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 1rem 1rem 1.3rem;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  text-align: left;
+  flex: 1 1 0; min-height: 0; overflow-y: auto;
+  padding: 1rem 1rem 1.3rem; background: #f9fafb;
+  display: flex; flex-direction: column; gap: 1.1rem; text-align: left;
 }
 
 .status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #6c757d;
-  min-height: 10rem;
-  text-align: center;
-  font-size: 1.06rem;
-  gap: 1rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #6c757d; min-height: 10rem; text-align: center;
+  font-size: 1.06rem; gap: 1rem;
 }
 .status-error { color: var(--danger-color); font-weight: 600; }
 .status-notfound { color: #888; }
@@ -201,123 +195,119 @@ onMounted(fetchDrugs)
 .spinner {
   width: 2.4em; height: 2.4em;
   border: .32em solid var(--secondary-color);
-  border-top: .32em solid var(--primary-color);
+  border-top: .32em solid var(--primary-color); /* Corrected: Uses orange variable */
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .list-title {
-  margin: 0 0 .7rem 0;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #6c757d;
-  border-bottom: 1px solid #eee;
-  padding-bottom: .4rem;
-  letter-spacing: .01em;
+  margin: 0 0 .7rem 0; font-size: 1.05rem; font-weight: 600; color: #6c757d;
+  border-bottom: 1px solid #e5e7eb; padding-bottom: .4rem; letter-spacing: .01em;
 }
 
-/* -- Drug Card -- */
-.drug-info {
-  background: #f6faff;
-  border: 1px solid #e3eaf0;
+.drug-item {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: .9em;
   padding: 1.1em .9em 1.1em;
   margin-bottom: 0.2em;
-  box-shadow: 0 1px 6px 0 rgba(0,0,0,.03);
+  box-shadow: 0 1px 6px 0 rgba(0,0,0,.04);
   transition: box-shadow 0.12s;
   display: flex;
   flex-direction: column;
-  gap: .7em;
+  gap: .9em;
 }
-.drug-info:last-child { margin-bottom: 0; }
-.drug-info:hover { box-shadow: 0 2px 12px #8cc4f622; }
+.drug-item:last-child { margin-bottom: 0; }
+.drug-item:hover { box-shadow: 0 2px 12px #e5e7eb; }
 
 .info-header {
-  display: flex;
-  align-items: center;
-  gap: .6em;
+  display: flex; align-items: center; gap: .6em;
 }
 .info-header h2 {
-  margin: 0;
-  font-size: 1.15rem;
-  color: var(--primary-color);
-  font-weight: 700;
-  line-height: 1.1;
+  margin: 0; font-size: 1.15rem; color: var(--primary-color-dark);
+  font-weight: 700; line-height: 1.1;
 }
 .trade-name {
-  font-size: .97em;
-  color: #555;
-  opacity: .85;
-  font-style: italic;
+  font-size: .97em; color: #555; opacity: .85; font-style: italic;
 }
 
-.info-section {
-  margin: 0;
+.info-details-grid {
+  display: flex; flex-direction: column; gap: 0.7rem;
 }
-.info-section h3 {
-  margin: 0 0 .3em 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #005ea7;
+.info-card {
+  background: #fdfdfd; border: 1px solid #f3f4f6;
+  border-radius: .7em; padding: .8em 1em;
 }
-.info-section p {
-  margin: 0;
-  font-size: .97rem;
-  line-height: 1.65;
-  word-break: break-word;
-  white-space: pre-line;
+.info-card h3 {
+  margin: 0 0 .4em 0; font-size: 1rem;
+  font-weight: 600; color: #b45309;
+}
+.info-card p {
+  margin: 0; font-size: .97rem; line-height: 1.65;
+  word-break: break-word; white-space: pre-line; color: #374151;
 }
 
 /* -- Read More Button -- */
+/* --- Read More Button: แบบที่ 1 (Polished & Professional) --- */
 .readmore-btn {
   background: var(--primary-color);
   color: #fff;
-  padding: .6em 1.2em;
+  padding: .7em 1.3em; /* เพิ่ม padding เล็กน้อยให้ดูสมส่วนขึ้น */
   border: none;
-  border-radius: .6em;
+  border-radius: .7em;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.15s;
+  align-self: flex-start;
+  margin-top: .3rem;
+  
+  /* เพิ่มเงาเริ่มต้นและ transition */
+  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.2); /* เงาสีส้มจางๆ */
+  transition: all 0.25s ease-out; /* ทำให้ทุกอย่างเปลี่ยนอย่างนุ่มนวล */
+}
+
+.readmore-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 15px rgba(180, 83, 9, 0.3);
 }
 
 .readmore-btn:active {
-  background: var(--primary-color);
-  transform: translateY(0);
+  /* ทำให้ปุ่มยุบลงตอนกด */
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(180, 83, 9, 0.2);
 }
 
-/* -- Responsive: Tablet & Desktop -- */
-@media (min-width: 600px) {
-  .drug-card {
-    max-width: 28rem;
-    min-height: 34rem;
-  }
-  .card-header h1 { font-size: 1.6rem; }
-  .card-header p { font-size: 1.07rem; }
-  .card-content { padding: 1.25rem 1.4rem 1.4rem; }
-  .card-search { padding: 1.1rem 1.4rem 1.1rem; }
+/* -- Footer -- */
+.card-footer-credit {
+  flex-shrink: 0; text-align: center;
+  padding: .7rem 1rem; background: #f9fafb;
+  border-top: 1px solid #f3f4f6;
 }
-@media (min-width: 900px) {
-  .drug-card {
-    max-width: 32rem;
-    min-height: 36rem;
-  }
-  .card-header h1 { font-size: 1.9rem; }
-  .card-header p { font-size: 1.13rem; }
+.card-footer-credit p {
+  margin: 0; font-size: 0.8rem; color: #6b7280;
 }
 
-/* --- Hide scrollbar on mobile, show on hover/scroll --- */
+/* --- Scrollbar --- */
 .card-content {
-  scrollbar-width: thin;
-  scrollbar-color: #aad5f3 #f6faff;
+  scrollbar-width: thin; scrollbar-color: #fcd34d #f9fafb;
 }
 .card-content::-webkit-scrollbar {
-  width: 0.55em;
-  background: #f6faff;
+  width: 0.55em; background: #f9fafb;
 }
 .card-content::-webkit-scrollbar-thumb {
-  background: #aad5f3;
-  border-radius: 1em;
+  background: #fcd34d; border-radius: 1em;
+}
+
+/* -- Responsive -- */
+@media (min-width: 600px) {
+  .drug-card { max-width: 28rem; min-height: 34rem; }
+  .card-header h1 { font-size: 1.6rem; }
+  .card-header p { font-size: 1.07rem; }
+}
+@media (min-width: 900px) {
+  .drug-card { max-width: 32rem; min-height: 36rem; }
+  .card-header h1 { font-size: 1.9rem; }
+  .card-header p { font-size: 1.13rem; }
 }
 </style>
