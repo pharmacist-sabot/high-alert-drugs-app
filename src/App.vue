@@ -4,27 +4,22 @@ import { ref } from 'vue'
 import DrugSearch from '@/components/DrugSearch.vue'
 import DrugDetailModal from '@/components/DrugDetailModal.vue'
 
-// State สำหรับเก็บ ID ของยาที่ต้องการดูรายละเอียด
 const selectedDrugId = ref(null)
 
-// ฟังก์ชันสำหรับเปิด Modal
 function showDrugDetails(drugId) {
   selectedDrugId.value = drugId
 }
 
-// ฟังก์ชันสำหรับปิด Modal
 function closeDrugDetails() {
   selectedDrugId.value = null
 }
 </script>
 
 <template>
-  <div class="app-root">
-    <!-- แสดงหน้าค้นหาเสมอ -->
+  <div class="app-container">
     <DrugSearch @view-details="showDrugDetails" />
 
-    <!-- แสดง Modal ก็ต่อเมื่อ selectedDrugId มีค่า -->
-    <transition name="fade">
+    <transition name="modal-fade">
       <DrugDetailModal
         v-if="selectedDrugId"
         :drug-id="selectedDrugId"
@@ -35,24 +30,33 @@ function closeDrugDetails() {
 </template>
 
 <style scoped>
-.app-root {
-  min-height: 100vh;
-  box-sizing: border-box;
-  background: #f7fafe;
+.app-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 0;
+  justify-content: flex-start; /* Start content from the top */
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for better mobile support */
+  width: 100%;
+  padding: var(--content-padding);
+  background-color: #f0f2f5; /* A slightly different background to make the card pop */
 }
 
-/* Transition effect for modal */
-.fade-enter-active,
-.fade-leave-active {
+/* Transition for the modal */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
   transition: opacity 0.3s ease;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.modal-fade-enter-from,
+.modal-fade-leave-to {
   opacity: 0;
+}
+
+/* On larger screens, center the content vertically */
+@media (min-width: 768px) {
+  .app-container {
+    justify-content: center;
+  }
 }
 </style>

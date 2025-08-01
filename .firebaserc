@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "high-alert-drugs-sabot"
-  }
+    "default": "high-alert-drugs-sabot",
+    "high-alert-drugs-sabot": "high-alert-drugs-sabot"
+  },
+  "targets": {},
+  "etags": {}
 }
