@@ -9,7 +9,6 @@ import '@fontsource/prompt/600.css'; // Semi-bold weight
 import '@fontsource/prompt/700.css'; // Bold weight
 
 // 2. Import ไฟล์สไตล์กลางไฟล์เดียว ที่รวมทุกอย่างไว้แล้ว
-// (ไม่มีการ import main.css อีกต่อไป)
 import './style.css'
 
 // 3. สร้างและเมาท์แอปพลิเคชัน Vue
